@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     float speed;
     bool isCrouching = false;
     bool isPaused = false;
+    public bool escapePressedThisFrame = false;
 
     void Start()
     {
@@ -74,9 +75,10 @@ public class PlayerMovement : MonoBehaviour
         head.localPosition = HeadBob(tBob);
         */
 
-        if(Input.GetKey(KeyCode.Escape))
+        if(Input.GetKey(KeyCode.Escape) && escapePressedThisFrame == false)
         {
             TogglePause();
+            escapePressedThisFrame = true;
         }
     }
 
