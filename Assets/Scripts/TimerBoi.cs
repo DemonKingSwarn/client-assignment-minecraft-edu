@@ -11,6 +11,6 @@ public class TimerBoi : MonoBehaviour
     {
         float currentTime = Time.time;
         string timeString = currentTime.ToString("F2");
-        timerText.text = timeString + "s";  
+        timerText.text = "Time: " + timeString + "s";  
     }
 }

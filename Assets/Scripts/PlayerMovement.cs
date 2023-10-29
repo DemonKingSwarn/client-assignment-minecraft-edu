@@ -20,10 +20,13 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] LayerMask groundMask;
 
+    [SerializeField] GameObject codePanel;
+
     Vector3 velocity;
     bool isGrounded;
     float speed;
     bool isCrouching = false;
+    bool isPaused = false;
 
     void Start()
     {
@@ -70,6 +73,11 @@ public class PlayerMovement : MonoBehaviour
         tBob += Time.deltaTime * velocity.magnitude * isGroundedFloat;
         head.localPosition = HeadBob(tBob);
         */
+
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            TogglePause();
+        }
     }
 
     Vector3 HeadBob(float time)
@@ -78,5 +86,14 @@ public class PlayerMovement : MonoBehaviour
         pos.y = Mathf.Sin(time * bobFreq) * bobAmp;
         pos.x = Mathf.Cos(time * bobFreq / 2f) * bobAmp; 
         return pos;
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
+        codePanel.SetActive(isPaused);
+        Cursor.visible = isPaused;
+        Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }
