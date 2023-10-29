@@ -2656,6 +2656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 1926929073}
   gateObject: {fileID: 2030502945}
+  interaction: {fileID: 1274851778}
 --- !u!1 &1250253671
 GameObject:
   m_ObjectHideFlags: 0
@@ -5193,7 +5194,6 @@ GameObject:
   - component: {fileID: 2114485316}
   - component: {fileID: 2114485318}
   - component: {fileID: 2114485319}
-  - component: {fileID: 2114485320}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5241,6 +5241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7d82f76c4f7d53182ce0cde353f80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1926929070}
   fps: 60
 --- !u!114 &2114485319
 MonoBehaviour:
@@ -5255,18 +5256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputField: {fileID: 1858157429}
---- !u!114 &2114485320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2114485315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9855f21395f51bcadac45f29ec607f1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &610299078713844194
 MeshFilter:
   m_ObjectHideFlags: 0
