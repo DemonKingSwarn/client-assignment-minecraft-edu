@@ -7,12 +7,13 @@ using System.IO;
 
 public class CodeInterpreter : MonoBehaviour
 {
-    [SerializeField] GameObject gate;
     [SerializeField] TMP_InputField codeInputField; // Reference to the input field
-    [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] OutputHandler handler;
 
     string scriptPath;
     string tmpPath;
+
+    bool pythonScriptFinished = false;
 
     private void Start()
     {
@@ -24,8 +25,7 @@ public class CodeInterpreter : MonoBehaviour
     {
         string pythonExecutablePath = GetPythonExecutablePath();
         string pythonCode = codeInputField.text;
-        pythonCode += "\n\nimport sys\n";
-        pythonCode += "\n\nsys.exit(0)";
+        pythonCode += "\n\n#success";
 
         UnityEngine.Debug.Log("Python Executable Path: " + pythonExecutablePath);
         UnityEngine.Debug.Log("Python Code:\n" + pythonCode);
@@ -50,18 +50,8 @@ public class CodeInterpreter : MonoBehaviour
                 if (e.Data != null)
                 {
                     string output = e.Data;
-                    int exitCode = process.ExitCode;
                     UnityEngine.Debug.Log("Output: " + output);
-
-                    // Check the output for success
-                    if (exitCode == 0)
-                    {
-                        MainThreadDispatcher.Enqueue(() =>
-                        {
-                            playerMovement.TogglePause();
-                            OpenGate();
-                        });
-                    }
+                    pythonScriptFinished = true;
                 }
             };
 
@@ -78,16 +68,30 @@ public class CodeInterpreter : MonoBehaviour
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            
+
+            /*
+            int exitCode = process.ExitCode;
+
+            // Ensure that you call GreatSuccess on the main thread
+            MainThreadDispatcher.Enqueue(() =>
+            {
+                if (exitCode == 0)
+                {
+                    handler.GreatSuccess();
+                }
+            });
+            */
         });
 
         pythonThread.Start();
+        ExecutionDone();
     }
 
-    private void OpenGate()
+    void ExecutionDone()
     {
-        Destroy(gate);
+        handler.GreatSuccess();
     }
+
 
     private string GetPythonExecutablePath()
     {
@@ -103,11 +107,11 @@ public class CodeInterpreter : MonoBehaviour
 
     void GetTmp()
     {
-        if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
             tmpPath = "C:\\Users\\AppData\\Local\\Temp\\";
         }
-        else if(Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxPlayer)
+        else if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxPlayer)
         {
             tmpPath = "/tmp/";
         }

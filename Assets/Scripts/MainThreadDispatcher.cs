@@ -21,10 +21,22 @@ public class MainThreadDispatcher : MonoBehaviour
 
     class ActionExecutor : MonoBehaviour
     {
+        private Action action;
+        private bool actionExecuted = false;
+
         public void Execute(Action action)
         {
-            action();
-            Destroy(this);
+            this.action = action;
+        }
+
+        void Update()
+        {
+            if (action != null && !actionExecuted)
+            {
+                action();
+                actionExecuted = true;
+                Destroy(this);
+            }
         }
     }
 }
