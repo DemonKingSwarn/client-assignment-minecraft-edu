@@ -5,13 +5,17 @@ using UnityEngine;
 public class OutputHandler : MonoBehaviour
 {
     [SerializeField] PlayerMovement playerMovement;
-    [SerializeField] GameObject gateObject;
+    [SerializeField] CodeInterpreter codeInterpreter;
+    [SerializeField] GateRemover gate;
     [SerializeField] GameObject interaction;
+    [SerializeField] GameObject triggerCol;
 
     public void GreatSuccess()
     {
-        Destroy(gateObject);
+        gate.Remove();
         playerMovement.TogglePause();
         interaction.SetActive(false);
+        playerMovement.questionsIndex += 1;
+        triggerCol.SetActive(false);
     }
 }

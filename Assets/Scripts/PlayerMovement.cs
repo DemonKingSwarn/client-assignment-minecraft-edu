@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] LayerMask groundMask;
 
-    [SerializeField] GameObject codePanel;
+    [SerializeField] GameObject[] codePanels;
 
     Vector3 velocity;
     bool isGrounded;
@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     bool isCrouching = false;
     bool isPaused = false;
     public bool escapePressedThisFrame = false;
+    public int questionsIndex = 0;
 
     void Start()
     {
@@ -40,13 +41,14 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         float isGroundedFloat = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask) ? 1.0f : 0.0f;
 
-        if (Input.GetKey(KeyCode.LeftShift)) 
+        /*if (Input.GetKey(KeyCode.LeftShift)) 
         {
             speed = sprintingSpeed;
         } else {
             speed = walkingSpeed;
-        }
+        }*/
 
+        speed = walkingSpeed;
         //Debug.Log(speed);
 
         if(isGrounded && velocity.y < 0f)
@@ -61,10 +63,11 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(move * speed * Time.deltaTime);
 
+        /*
         if(Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
+        }*/
 
         velocity.y += gravity * Time.deltaTime;
 
@@ -93,8 +96,7 @@ public class PlayerMovement : MonoBehaviour
     public void TogglePause()
     {
         isPaused = !isPaused;
-        Time.timeScale = isPaused ? 0f : 1f;
-        codePanel.SetActive(isPaused);
+        codePanels[questionsIndex].SetActive(isPaused);
         Cursor.visible = isPaused;
         Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
     }

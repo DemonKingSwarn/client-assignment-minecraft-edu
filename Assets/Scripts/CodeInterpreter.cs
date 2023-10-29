@@ -69,6 +69,18 @@ public class CodeInterpreter : MonoBehaviour
             process.BeginErrorReadLine();
             process.WaitForExit();
 
+            /*
+            int exitCode = process.ExitCode;
+
+            // Ensure that you call GreatSuccess on the main thread
+            MainThreadDispatcher.Enqueue(() =>
+            {
+                if (exitCode == 0)
+                {
+                    handler.GreatSuccess();
+                }
+            });
+            */
         });
 
         pythonThread.Start();
